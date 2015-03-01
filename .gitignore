@@ -1,0 +1,8 @@
+.config/
+.settings/
+Debug/
+*.obj
+*.exclude
+*.lib
+*.libs
+makefile
