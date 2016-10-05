@@ -10,20 +10,35 @@
 #include "../../Pitch/include/Pitch.h"
 #include "../../Gate/include/Gate.h"
 
+#define CALIBRATION_CONSTANT	3
+#define CC_ARP_ON_OFF			113
+#define CC_ARP_PREV				114
+#define CC_ARP_NEXT				115
+
+uint8_t numberOfPressedKeys = 0;
+uint8_t arpEnabled = false;
+
 void mNoteOffCallback(Channel channel, DataByte data1, DataByte data2)
 {
 	//TEST: turn a LED off
-	LED1_Off();
-
-	GateOff();
+//	LED1_Off();
+	if(data1 != 127U) {
+		numberOfPressedKeys--;
+		if( numberOfPressedKeys == 0 ) {
+			GateOff();
+		}
+	}
 }
 
 void mNoteOnCallback(Channel channel, DataByte data1, DataByte data2)
 {
 	//TEST: turn a LED on
-	LED1_On();
-	SetPitch(data1 << 1);
-	GateOn();
+//	LED1_On();
+	if(data1 != 127U) {
+		SetPitch(data1 * CALIBRATION_CONSTANT);
+		numberOfPressedKeys++;
+		GateOn();
+	}
 }
 
 void mClockCallback()
@@ -53,7 +68,9 @@ void mActiveSensingCallback()
 
 void mControlChangeCallback(Channel channel, DataByte data1, DataByte data2)
 {
+	if (data1 == CC_ARP_ON_OFF) {
 
+	}
 }
 
 void mPitchBendCallback(Channel channel, int data)

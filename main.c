@@ -17,7 +17,7 @@
  * ======== Defines ========
  */
 
-#define	MIDI_INPUT_CHANNEL	10
+#define	MIDI_INPUT_CHANNEL	(Channel)10U
 
 /*
  *  ======== main ========

@@ -23,10 +23,10 @@ void GPIO_init(void)
     P1SEL2 = BIT1 + BIT2;
 
     /* Port 1 Direction Register */
-    P1DIR = BIT0 + BIT6 + BIT7;
+    P1DIR = BIT6 + BIT7;
 
     /* Port 1 Resistor Enable Register */
-    P1REN = BIT3 + BIT4 + BIT5;
+    P1REN = BIT0 + BIT3 + BIT4 + BIT5;
 
     /* Port 1 Interrupt Edge Select Register */
     P1IES = 0;
