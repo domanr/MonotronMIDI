@@ -21,12 +21,12 @@ void WDTplus_init(void)
      * ~WDTNMI -- Reset function
      * ~WDTTMSEL -- Watchdog mode
      * ~WDTCNTCL -- No action
-     * ~WDTSSEL -- SMCLK
+     * WDTSSEL -- ACLK
      * ~WDTIS0 -- Watchdog clock source bit0 disabled
      * ~WDTIS1 -- Watchdog clock source bit1 disabled
      * 
      * Note: ~<BIT> indicates that <BIT> has value zero
      */
-    WDTCTL = WDTPW + WDTHOLD;
+    WDTCTL = WDTPW + WDTHOLD + WDTSSEL;
     
 }

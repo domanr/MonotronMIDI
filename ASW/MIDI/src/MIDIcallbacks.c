@@ -14,6 +14,7 @@
 #define CC_ARP_ON_OFF			113
 #define CC_ARP_PREV				114
 #define CC_ARP_NEXT				115
+#define ARP_MAX 3
 
 /* Lookup table parameters */
 #define LOWEST_NOTE		24u
@@ -103,8 +104,12 @@ uint8_t lookupTable[NUMBER_OF_NOTES] =
 		254
 };
 
+uint8_t arpeggioDiff[ARP_MAX+1] = {0, 3, 5, 8};
+uint8_t arpIndex = 0;
+
 uint8_t numberOfPressedKeys = 0;
 uint8_t arpEnabled = false;
+uint8_t currentNote = 0;
 
 void mNoteOffCallback(Channel channel, DataByte data1, DataByte data2)
 {
@@ -119,6 +124,7 @@ void mNoteOffCallback(Channel channel, DataByte data1, DataByte data2)
 void mNoteOnCallback(Channel channel, DataByte data1, DataByte data2)
 {
 	if(data1 != 127U) {
+		arpIndex = 1;
 		if(data1 < LOWEST_NOTE) {
 			data1 = LOWEST_NOTE;
 		} else if(data1 > HIGHEST_NOTE) {
@@ -126,6 +132,7 @@ void mNoteOnCallback(Channel channel, DataByte data1, DataByte data2)
 		} else {
 			/* Keep the value */
 		}
+		currentNote = data1;
 		SetPitch( lookupTable[data1 - LOWEST_NOTE] );
 		numberOfPressedKeys++;
 		GateOn();
@@ -214,3 +221,11 @@ void mSystemResetCallback()
 
 }
 
+void BPM_TimerHandler(void)
+{
+	SetPitch( lookupTable[currentNote - LOWEST_NOTE + arpeggioDiff[arpIndex]] );
+	arpIndex++;
+	if(arpIndex > ARP_MAX) {
+		arpIndex = 0;
+	}
+}
