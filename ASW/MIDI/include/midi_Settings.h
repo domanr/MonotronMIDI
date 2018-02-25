@@ -92,5 +92,7 @@
 #define MIDI_BAUDRATE                   31250
 #define MIDI_SYSEX_ARRAY_SIZE           1     // Maximum size is 255 bytes.
 
+#define	MIDI_INPUT_CHANNEL	(Channel)13U
+
 // -----------------------------------------------------------------------------
 
